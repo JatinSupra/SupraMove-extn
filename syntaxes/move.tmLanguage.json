@@ -1,0 +1,43 @@
+{
+    "scopeName": "source.move",
+    "patterns": [
+        {
+            "name": "keyword.control.move",
+            "match": "\\b(module|script|public|entry|fun|let|return|use|const|assert|acquires)\\b"
+        },
+        {
+            "name": "storage.type.move",
+            "match": "\\b(address|signer|vector|u64|bool|String|Option)\\b"
+        },
+        {
+            "name": "entity.name.type.move",
+            "match": "\\b(Object|Collection|Token|Event|Registry|Config)\\b"
+        },
+        {
+            "name": "constant.language.move",
+            "match": "\\b(\\w+_MOVE_ADDR|E\\w+)\\b"
+        },
+        {
+            "name": "support.type.supra.move",
+            "match": "\\b(supra_framework|supra::[a-zA-Z0-9_]+|object::ExtendRef)\\b"
+        },
+        {
+            "name": "function.name.move",
+            "match": "\\b(init_module|update_creator|is_admin|move_to|borrow_global_mut)\\b"
+        },
+        {
+            "name": "comment.line.double-slash.move",
+            "begin": "//",
+            "end": "$"
+        },
+        {
+            "name": "string.quoted.double.move",
+            "begin": "\"",
+            "end": "\""
+        }
+    ],
+    "repository": {},
+    "fileTypes": ["move"],
+    "name": "Move Language Syntax",
+    "scopeName": "source.move"
+}

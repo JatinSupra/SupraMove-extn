@@ -1,0 +1,131 @@
+{
+    "supra_framework": {
+                "object": {
+                    "create_object": {
+                        "params": ["ObjectType: type", "Owner: signer"],
+                        "description": "Creates a new object of the specified type and assigns it to the given owner.",
+                        "example_usage": "let obj = object::create_object<ObjectType>(&signer);"
+                    },
+                    "move_to": {
+                        "params": ["account: signer", "resource: ResourceType"],
+                        "description": "Moves a resource to the given account's storage.",
+                        "example_usage": "object::move_to(&account, resource);"
+                    },
+                    "borrow_global_mut": {
+                        "params": ["address: address"],
+                        "description": "Borrows a mutable reference to a global resource stored at the specified address.",
+                        "example_usage": "let resource = borrow_global_mut<ResourceType>(address);"
+                    }
+                },
+                "event": {
+                    "emit_event": {
+                        "params": ["EventType: type", "payload: PayloadType"],
+                        "description": "Emits an event of the given type with the specified payload.",
+                        "example_usage": "event::emit_event<EventType>(payload);"
+                    }
+                },
+                "timestamp": {
+                    "get_current_time": {
+                        "params": [],
+                        "description": "Returns the current blockchain timestamp in seconds.",
+                        "example_usage": "let time = timestamp::get_current_time();"
+                    }
+                }
+            },
+            "launchpad_addr": {
+                "launchpad": {
+                    "init_module": {
+                        "params": ["sender: signer"],
+                        "description": "Initializes the launchpad module by setting up necessary global data structures.",
+                        "example_usage": "launchpad::init_module(&signer);"
+                    },
+                    "update_creator": {
+                        "params": ["sender: signer", "new_creator: address"],
+                        "description": "Allows the admin to update the creator address for the module.",
+                        "example_usage": "launchpad::update_creator(&signer, new_creator_address);"
+                    }
+                }
+            },
+            "aptos_token_objects": {
+                "collection": {
+                    "create_collection": {
+                        "params": ["owner: signer", "name: string", "description: string", "uri: string"],
+                        "description": "Creates a new collection with metadata and assigns it to the owner.",
+                        "example_usage": "let collection = collection::create_collection(&signer, name, description, uri);"
+                    }
+                },
+                "token": {
+                    "mint_token": {
+                        "params": ["collection: Collection", "amount: u64", "recipient: address"],
+                        "description": "Mints tokens into a specified collection and assigns them to a recipient.",
+                        "example_usage": "token::mint_token(&collection, 10, recipient_addr);"
+                    },
+                    "transfer_token": {
+                        "params": ["from: address", "to: address", "amount: u64"],
+                        "description": "Transfers tokens from one address to another.",
+                        "example_usage": "token::transfer_token(from_addr, to_addr, 5);"
+                    },
+         
+            "account": {
+            "create_signer": {
+                "params": ["address: address"],
+                "description": "Creates a signer resource for the given address.",
+                "example_usage": "let signer = account::create_signer(address);"
+            },
+            "KeyRotation": {
+                "params": ["account: address", "old_authentication_key: vector<u8>", "new_authentication_key: vector<u8>"],
+                "description": "Event emitted upon rotating an account's authentication key.",
+                "example_usage": "// KeyRotation event details stored in logs."
+            }
+        },
+        "supra_coin": {
+            "initialize": {
+                "params": ["supra_framework: &signer"],
+                "description": "Initializes the SupraCoin system during genesis.",
+                "example_usage": "let (burn_cap, mint_cap) = supra_coin::initialize(&signer);"
+            },
+            "DelegatedMintCapability": {
+                "params": ["to: address"],
+                "description": "Delegation token that allows minting capabilities for a specific address.",
+                "example_usage": "// Represents mint delegation for an address."
+            }
+        },
+        "event": {
+            "emit": {
+                "params": ["T: store + drop"],
+                "description": "Emits an event with the provided payload.",
+                "example_usage": "event::emit<EventType>(payload);"
+            },
+            "was_event_emitted": {
+                "params": ["msg: &T"],
+                "description": "Checks if a specific event was emitted.",
+                "example_usage": "let emitted = event::was_event_emitted<T>(&msg);"
+            }
+        },
+        "object": {
+            "object_address": {
+                "params": ["Object<T>: type"],
+                "description": "Retrieves the address of the given object type.",
+                "example_usage": "let addr = object::object_address<T>(obj);"
+            },
+            "borrow_global_mut": {
+                "params": ["address: address"],
+                "description": "Mutably borrows a global resource from the provided address.",
+                "example_usage": "let resource = borrow_global_mut<Object>(addr);"
+            }
+        },
+        "coin": {
+            "create_coin": {
+                "params": ["T: CoinType", "owner: signer"],
+                "description": "Creates a new coin resource of the given type for the owner.",
+                "example_usage": "coin::create_coin<T>(&signer);"
+            },
+            "burn": {
+                "params": ["coin: CoinType", "amount: u64"],
+                "description": "Burns the specified amount of the coin.",
+                "example_usage": "coin::burn(coin, 100);"
+            }
+        }
+    }
+} }
+
