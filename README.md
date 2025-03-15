@@ -7,21 +7,21 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
 ### 1. Syntax Highlighting
 - Comprehensive syntax support for Move language fundamentals.
 - Special highlighting for Supra Move-specific syntax, such as `supra_framework` namespaces.
+- ***Note:** Yet to have all Supra Framework function def.
 
 ### 2. Intellisense
 - Auto-complete and suggestions for Supra Move namespaces, functions, and parameters.
 - Detailed descriptions and usage examples for Supra Move framework functions.
 
-### 3. Productivity Boost
-- Improved workflow efficiency with quick navigation to local and remote dependencies.
-- Context-aware function recommendations to save time and effort.
-
 ## Getting Started
 
 ### Installation
-1. Open Visual Studio Code.
-2. Go to the Extensions view by clicking on the square icon in the Activity Bar or pressing `Ctrl+Shift+X`.
-3. Search for **"SupraMove"** and click **Install**.
+- Yet to be PUBLIC on VS Code Marketplace
+- To try 
+  - Fork the repo in VS Code
+  - Open the Project Dir and Press F5.
+  - That will open a new window of VS Code and then try writing a new Move Supra Framework Contract to test out the extention features.
+  - ***Note:** Keep the main window open to keep extention running. 
 
 ### Usage
 - Open any `.move` file in VS Code.
@@ -37,8 +37,5 @@ Found a bug or have a feature request? Feel free to [open an issue]
 ## Contributing
 Contributions are welcome! Whether it’s fixing a bug, enhancing functionality, or adding documentation, your input makes this tool better for everyone.
 
----
-
 ## License
-
 This extension is licensed under the MIT License 
