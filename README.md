@@ -31,9 +31,6 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
 - Node.js and npm (for development and testing).
 - Visual Studio Code (latest version recommended).
 
-### Feedback
-Found a bug or have a feature request? Feel free to [open an issue] 
-
 ## Contributing
 Contributions are welcome! Whether it’s fixing a bug, enhancing functionality, or adding documentation, your input makes this tool better for everyone.
 
