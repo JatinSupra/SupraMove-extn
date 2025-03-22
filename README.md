@@ -11,7 +11,10 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
 
 ### 2. Intellisense
 - Auto-complete and suggestions for Supra Move namespaces, functions, and parameters.
-- Detailed descriptions and usage examples for Supra Move framework functions.
+- Provides dropdown suggestions for namespaces like `supra_framework::`, `std::`, and others.
+- Auto-complete for modules, functions, and attributes from:
+   - supra_framework
+   - std (e.g., vector, table, borrow_mut)
 
 ## Getting Started
 

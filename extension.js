@@ -19,9 +19,9 @@ function activate(context) {
         provideCompletionItems(document, position) {
             const linePrefix = document.lineAt(position).text.substring(0, position.character);
 
-            console.log("Line Prefix:", linePrefix); // Debugging output
+            console.log("Line Prefix:", linePrefix);  
 
-            const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim(); // Handle "use" keyword
+            const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim();  
             if (cleanedPrefix.endsWith("::")) {
                 const namespace = cleanedPrefix.split("::")[0].trim();
                 console.log("Extracted Namespace:", namespace);
@@ -42,7 +42,7 @@ function activate(context) {
                         `**Example:** \`${itemData?.example_usage || "No example available."}\`\n` +
                         (itemData?.reference ? `[More Info](${itemData.reference})` : "")
                     );
-                    completionItem.insertText = item; // Insert the selected item
+                    completionItem.insertText = item; 
                     return completionItem;
                 });
             }
@@ -78,9 +78,8 @@ function activate(context) {
         provideCompletionItems(document, position) {
             const linePrefix = document.lineAt(position).text.substring(0, position.character);
     
-            console.log("Line Prefix:", linePrefix); // Debugging output
-    
-            // Clean prefix to handle "use std::" or standalone "std::"
+            console.log("Line Prefix:", linePrefix); 
+ 
             const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim();
             if (cleanedPrefix.endsWith("std::")) {
                 console.log("Cleaned Prefix for Std:", cleanedPrefix);
@@ -100,7 +99,7 @@ function activate(context) {
                         `**Description:** ${itemData?.description || "No description available."}\n\n` +
                         `**Example:** \`${itemData?.example_usage || "No example available."}\`\n`
                     );
-                    completionItem.insertText = item; // Insert the selected item
+                    completionItem.insertText = item;  
                     return completionItem;
                 });
             }
