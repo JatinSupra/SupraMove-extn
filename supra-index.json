@@ -88,7 +88,8 @@
             }
         }
     },
-    "launchpad_addr": {
+
+"launchpad_addr": {
         "launchpad": {
             "init_module": {
                 "params": ["sender: signer"],
@@ -102,7 +103,8 @@
             }
         }
     },
-    "aptos_token_objects": {
+
+"aptos_token_objects": {
         "collection": {
             "create_collection": {
                 "params": ["owner: signer", "name: string", "description: string", "uri: string"],
@@ -122,5 +124,32 @@
                 "example_usage": "token::transfer_token(from_addr, to_addr, 5);"
             }
         }
+    },
+
+"std": {
+    "vector": {
+        "new": {
+            "params": [],
+            "description": "Creates a new vector instance.",
+            "example_usage": "let vec = vector::new();"
+        },
+        "push": {
+            "params": ["vec: vector<T>", "value: T"],
+            "description": "Pushes a value onto the vector.",
+            "example_usage": "vector::push(&vec, value);"
+        }
+    },
+    "table": {
+        "new": {
+            "params": [],
+            "description": "Creates a new table instance.",
+            "example_usage": "let tbl = table::new();"
+        }
+    },
+    "borrow_mut": {
+        "params": ["addr: address"],
+        "description": "Borrows a mutable reference to a resource stored at the given address.",
+        "example_usage": "let resource = borrow_mut<ResourceType>(addr);"
     }
+}    
 }

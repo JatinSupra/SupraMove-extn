@@ -11,113 +11,109 @@ function activate(context) {
         console.log("Supra index successfully loaded.");
     } catch (error) {
         vscode.window.showErrorMessage("Failed to load supra-index.json: " + error.message);
-        supraIndex = {}; // Ensure the extension doesn't break
+        supraIndex = {};
     }
 
-    // Register IntelliSense provider for "::" trigger
-    const provider = vscode.languages.registerCompletionItemProvider('move', {
+    // IntelliSense for "::" triggers (supra_framework and std)
+    const namespaceProvider = vscode.languages.registerCompletionItemProvider('move', {
         provideCompletionItems(document, position) {
             const linePrefix = document.lineAt(position).text.substring(0, position.character);
-    
-            console.log("Line Prefix:", linePrefix); // Debugging output for entered text
-    
-            // Handle cases where "use" is present and clean the prefix
-            const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim(); // Remove the 'use' keyword
-            console.log("Cleaned Prefix:", cleanedPrefix); // Debugging output for cleaned text
-    
-            // Extract the namespace if "::" is present
+
+            console.log("Line Prefix:", linePrefix); // Debugging output
+
+            const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim(); // Handle "use" keyword
             if (cleanedPrefix.endsWith("::")) {
                 const namespace = cleanedPrefix.split("::")[0].trim();
-                console.log("Extracted Namespace:", namespace); // Debugging output
-    
+                console.log("Extracted Namespace:", namespace);
+
                 const suggestions = supraIndex[namespace];
                 if (!suggestions) {
                     console.error(`No items found for namespace: ${namespace}`);
                     vscode.window.showInformationMessage(`No items found for namespace: ${namespace}`);
                     return [];
                 }
-    
-                console.log("Suggestions Found:", Object.keys(suggestions)); // Debugging output for suggestions
-    
+
+                console.log("Suggestions Found:", Object.keys(suggestions));
                 return Object.keys(suggestions).map(item => {
                     const completionItem = new vscode.CompletionItem(item, vscode.CompletionItemKind.Module);
+                    const itemData = suggestions[item];
                     completionItem.documentation = new vscode.MarkdownString(
-                        `**Description:** ${suggestions[item]?.description || "No description available."}`
+                        `**Description:** ${itemData?.description || "No description available."}\n\n` +
+                        `**Example:** \`${itemData?.example_usage || "No example available."}\`\n` +
+                        (itemData?.reference ? `[More Info](${itemData.reference})` : "")
+                    );
+                    completionItem.insertText = item; // Insert the selected item
+                    return completionItem;
+                });
+            }
+
+            return undefined;
+        }
+    }, ':');
+    context.subscriptions.push(namespaceProvider);
+
+    // IntelliSense for struct attributes
+    const structProvider = vscode.languages.registerCompletionItemProvider('move', {
+        provideCompletionItems(document, position) {
+            const linePrefix = document.lineAt(position).text.substring(0, position.character);
+
+            if (linePrefix.trim().startsWith("struct")) {
+                console.log("Struct detected, providing attribute suggestions.");
+                const attributes = ["drop", "store", "key", "copy"];
+                return attributes.map(attr => {
+                    const completionItem = new vscode.CompletionItem(attr, vscode.CompletionItemKind.Keyword);
+                    completionItem.documentation = new vscode.MarkdownString(
+                        `**Attribute:** \`${attr}\`\n\nThese attributes control how the struct behaves during Move operations.`
+                    );
+                    return completionItem;
+                });
+            }
+            return undefined;
+        }
+    }, ' ');
+    context.subscriptions.push(structProvider);
+
+    // IntelliSense for std modules (vector, table, etc.)
+    const stdProvider = vscode.languages.registerCompletionItemProvider('move', {
+        provideCompletionItems(document, position) {
+            const linePrefix = document.lineAt(position).text.substring(0, position.character);
+    
+            console.log("Line Prefix:", linePrefix); // Debugging output
+    
+            // Clean prefix to handle "use std::" or standalone "std::"
+            const cleanedPrefix = linePrefix.replace(/use\s+/g, '').trim();
+            if (cleanedPrefix.endsWith("std::")) {
+                console.log("Cleaned Prefix for Std:", cleanedPrefix);
+                console.log("Std namespace detected, providing dropdown suggestions.");
+                const stdSuggestions = supraIndex["std"];
+                if (!stdSuggestions) {
+                    console.error("No items found for 'std' namespace.");
+                    vscode.window.showInformationMessage("No items found for 'std' namespace.");
+                    return [];
+                }
+    
+                console.log("Std Suggestions Found:", Object.keys(stdSuggestions));
+                return Object.keys(stdSuggestions).map(item => {
+                    const completionItem = new vscode.CompletionItem(item, vscode.CompletionItemKind.Module);
+                    const itemData = stdSuggestions[item];
+                    completionItem.documentation = new vscode.MarkdownString(
+                        `**Description:** ${itemData?.description || "No description available."}\n\n` +
+                        `**Example:** \`${itemData?.example_usage || "No example available."}\`\n`
                     );
                     completionItem.insertText = item; // Insert the selected item
                     return completionItem;
                 });
             }
     
-            return undefined; // Default case for other inputs
+            return undefined;
         }
-    }, ':'); // ":" is the trigger character
-        
-    // Add the provider to the context's subscriptions
-    context.subscriptions.push(provider);
-
-    // Register function parameter validation (Signature Help)
-    const signatureProvider = vscode.languages.registerSignatureHelpProvider('move', {
-        provideSignatureHelp(document, position) {
-            const lineText = document.lineAt(position).text;
-            const functionName = extractFunctionName(lineText); // Custom helper function to parse function name
-            const namespace = extractNamespace(lineText); // Custom helper function to parse namespace
-
-            if (namespace && functionName && supraIndex[namespace] && supraIndex[namespace][functionName]) {
-                const functionData = supraIndex[namespace][functionName];
-                const signature = new vscode.SignatureInformation(
-                    `${namespace}::${functionName}(${functionData.params.join(', ')})`
-                );
-                signature.documentation = functionData.description;
-                return {
-                    signatures: [signature],
-                    activeSignature: 0,
-                    activeParameter: 0
-                };
-            }
-            return null;
-        }
-    }, '(', ',');
-    context.subscriptions.push(signatureProvider);
-
-    // Diagnostics for syntax validation
-    const diagnostics = vscode.languages.createDiagnosticCollection("move");
-    vscode.workspace.onDidSaveTextDocument((document) => {
-        if (document.languageId !== "move") return;
-
-        const errors = validateMoveDocument(document.getText()); // Custom validation logic
-        const diagnosticList = errors.map(error => {
-            return new vscode.Diagnostic(
-                new vscode.Range(error.line, error.startCol, error.line, error.endCol),
-                error.message,
-                vscode.DiagnosticSeverity.Error
-            );
-        });
-
-        diagnostics.set(document.uri, diagnosticList);
-    });
-}
-
-// Helper functions to extract namespace and function name
-function extractFunctionName(lineText) {
-    const match = lineText.match(/::\s*(\w+)\s*\(/);
-    return match ? match[1] : null;
-}
-
-function extractNamespace(lineText) {
-    const match = lineText.match(/(\w+)::/);
-    return match ? match[1] : null;
-}
-
-// Placeholder for Move validation logic
-function validateMoveDocument(text) {
-    // Example: Add custom validation for missing or miswritten functions
-    // This is just a placeholder. You can implement syntax validation here.
-    return [];
+    }, ':');
+    context.subscriptions.push(stdProvider);    
 }
 
 function deactivate() {}
 
+// Exports for the extension
 module.exports = {
     activate,
     deactivate
