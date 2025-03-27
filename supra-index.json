@@ -1,131 +1,131 @@
 {
-    "supra_framework": {
-        "object": {
-            "create_object": {
-                "params": ["ObjectType: type", "Owner: signer"],
-                "description": "Creates a new object of the specified type and assigns it to the given owner.",
-                "example_usage": "let obj = object::create_object<ObjectType>(&signer);"
-            },
-            "move_to": {
-                "params": ["account: signer", "resource: ResourceType"],
-                "description": "Moves a resource to the given account's storage.",
-                "example_usage": "object::move_to(&account, resource);"
-            },
-            "borrow_global_mut": {
-                "params": ["address: address"],
-                "description": "Borrows a mutable reference to a global resource stored at the specified address.",
-                "example_usage": "let resource = borrow_global_mut<Object>(addr);"
-            },
-            "object_address": {
-                "params": ["Object<T>: type"],
-                "description": "Retrieves the address of the given object type.",
-                "example_usage": "let addr = object::object_address<T>(obj);"
-            }
-        },
-        "event": {
-            "emit_event": {
-                "params": ["EventType: type", "payload: PayloadType"],
-                "description": "Emits an event of the given type with the specified payload.",
-                "example_usage": "event::emit_event<EventType>(payload);"
-            },
-            "emit": {
-                "params": ["T: store + drop"],
-                "description": "Emits an event with the provided payload.",
-                "example_usage": "event::emit<EventType>(payload);"
-            },
-            "was_event_emitted": {
-                "params": ["msg: &T"],
-                "description": "Checks if a specific event was emitted.",
-                "example_usage": "let emitted = event::was_event_emitted<T>(&msg);"
-            }
-        },
-        "timestamp": {
-            "get_current_time": {
-                "params": [],
-                "description": "Returns the current blockchain timestamp in seconds.",
-                "example_usage": "let time = timestamp::get_current_time();"
-            }
-        },
-        "supra_coin": {
-            "initialize": {
-                "params": ["supra_framework: &signer"],
-                "description": "Initializes the SupraCoin system during genesis.",
-                "example_usage": "let (burn_cap, mint_cap) = supra_coin::initialize(&signer);"
-            },
-            "DelegatedMintCapability": {
-                "params": ["to: address"],
-                "description": "Delegation token that allows minting capabilities for a specific address.",
-                "example_usage": "// Represents mint delegation for an address."
-            }
-        },
-        "account": {
-            "create_signer": {
-                "params": ["address: address"],
-                "description": "Creates a signer resource for the given address.",
-                "example_usage": "let signer = account::create_signer(address);"
-            },
-            "create_account": {
-                "params": ["auth_key: address"],
-                "description": "Creates an account with the specified authentication key.",
-                "example_usage": "supra_account::create_account(auth_key);"
-            },
-            "KeyRotation": {
-                "params": ["account: address", "old_authentication_key: vector<u8>", "new_authentication_key: vector<u8>"],
-                "description": "Event emitted upon rotating an account's authentication key.",
-                "example_usage": "// KeyRotation event details stored in logs."
-            }
-        },
-        "supra_account": {
-            "batch_transfer": {
-                "params": ["source: &signer", "recipients: vector<address>", "amounts: vector<u64>"],
-                "description": "Performs a batch transfer of SUPRA to multiple recipients.",
-                "example_usage": "supra_account::batch_transfer(&signer, recipients, amounts);"
-            },
-            "DirectTransferConfig": {
-                "params": ["allow_arbitrary_coin_transfers: bool"],
-                "description": "Configures whether an account can receive direct transfers of coins.",
-                "example_usage": "// Represents the direct transfer configuration of an account."
-            }
-        }
+  "supra_framework": {
+    "config_buffer": {},
+    "create_signer": {
+      "create_signer": {
+        "params": ["address: address"],
+        "example_usage": "let signer = create_signer(address);"
+      }
     },
-
-"launchpad_addr": {
-        "launchpad": {
-            "init_module": {
-                "params": ["sender: signer"],
-                "description": "Initializes the launchpad module by setting up necessary global data structures.",
-                "example_usage": "launchpad::init_module(&signer);"
-            },
-            "update_creator": {
-                "params": ["sender: signer", "new_creator: address"],
-                "description": "Allows the admin to update the creator address for the module.",
-                "example_usage": "launchpad::update_creator(&signer, new_creator_address);"
-            }
-        }
+    "system_addresses": {},
+    "block": {
+      "get_current_block_number": {
+        "params": [],
+        "example_usage": "let block_number = block::get_current_block_number();"
+      },
+      "get_block_hash": {
+        "params": ["block_number: u64"],
+        "example_usage": "let block_hash = block::get_block_hash(100);"
+      }
     },
-
-"aptos_token_objects": {
-        "collection": {
-            "create_collection": {
-                "params": ["owner: signer", "name: string", "description: string", "uri: string"],
-                "description": "Creates a new collection with metadata and assigns it to the owner.",
-                "example_usage": "let collection = collection::create_collection(&signer, name, description, uri);"
-            }
-        },
-        "token": {
-            "mint_token": {
-                "params": ["collection: Collection", "amount: u64", "recipient: address"],
-                "description": "Mints tokens into a specified collection and assigns them to a recipient.",
-                "example_usage": "token::mint_token(&collection, 10, recipient_addr);"
-            },
-            "transfer_token": {
-                "params": ["from: address", "to: address", "amount: u64"],
-                "description": "Transfers tokens from one address to another.",
-                "example_usage": "token::transfer_token(from_addr, to_addr, 5);"
-            }
-        }
+    "reconfiguration": {
+      "trigger_reconfiguration": {
+        "params": [],
+        "example_usage": "reconfiguration::trigger_reconfiguration();"
+      }
     },
-
+    "reconfiguration_with_dkg": {},
+    "genesis": {},
+    "automation_registry": {},
+    "event": {
+      "emit_event": {
+        "params": ["EventType: type", "payload: PayloadType"],
+        "example_usage": "event::emit_event<EventType>(payload);"
+      },
+      "emit": {
+        "params": ["T: store + drop"],
+        "example_usage": "event::emit<EventType>(payload);"
+      },
+      "was_event_emitted": {
+        "params": ["msg: &T"],
+        "example_usage": "let emitted = event::was_event_emitted<T>(&msg);"
+      }
+    },
+    "randomness": {},
+    "state_storage": {},
+    "transaction_fee": {},
+    "util": {},
+    "fungible_asset": {
+      "create_asset": {
+        "params": ["asset_name: string", "supply: u64"],
+        "example_usage": "fungible_asset::create_asset(\"MyAsset\", 1000);"
+      },
+      "transfer_asset": {
+        "params": ["from: address", "to: address", "amount: u64"],
+        "example_usage": "fungible_asset::transfer_asset(sender_addr, receiver_addr, 50);"
+      }
+    },
+    "multisig_account": {},
+    "function_info": {},
+    "validator_consensus_info": {
+      "get_validator_info": {
+        "params": ["validator_address: address"],
+        "example_usage": "let validator_info = validator_consensus_info::get_validator_info(validator_addr);"
+      },
+      "list_validators": {
+        "params": [],
+        "example_usage": "let validators = validator_consensus_info::list_validators();"
+      }
+    },
+    "dispatchable_fungible_asset": {},
+    "aggregator_v2": {},
+    "aggregator_factory": {},
+    "chain_id": {},
+    "chain_status": {},
+    "consensus_config": {},
+    "execution_config": {},
+    "gas_schedule": {},
+    "pbo_delegation_pool": {},
+    "staking_config": {},
+    "staking_contract": {},
+    "storage_gas": {},
+    "supra_config": {},
+    "supra_governance": {},
+    "timestamp": {
+      "get_current_time": {
+        "params": [],
+        "example_usage": "let time = timestamp::get_current_time();"
+      }
+    },
+    "transaction_validation": {},
+    "version": {},
+    "vesting": {},
+    "vesting_without_staking": {},
+    "supra_coin": {
+      "initialize": {
+        "params": ["supra_framework: &signer"],
+        "example_usage": "let (burn_cap, mint_cap) = supra_coin::initialize(&signer);"
+      },
+      "DelegatedMintCapability": {
+        "params": ["to: address"],
+        "example_usage": "// Represents mint delegation for an address."
+      }
+    },
+    "account": {
+      "create_signer": {
+        "params": ["address: address"],
+        "example_usage": "let signer = account::create_signer(address);"
+      },
+      "create_account": {
+        "params": ["auth_key: address"],
+        "example_usage": "supra_account::create_account(auth_key);"
+      },
+      "KeyRotation": {
+        "params": ["account: address", "old_authentication_key: vector<u8>", "new_authentication_key: vector<u8>"],
+        "example_usage": "// KeyRotation event details stored in logs."
+      }
+    },
+    "supra_account": {
+      "batch_transfer": {
+        "params": ["source: &signer", "recipients: vector<address>", "amounts: vector<u64>"],
+        "example_usage": "supra_account::batch_transfer(&signer, recipients, amounts);"
+      },
+      "DirectTransferConfig": {
+        "params": ["allow_arbitrary_coin_transfers: bool"],
+        "example_usage": "// Represents the direct transfer configuration of an account."
+      }
+    }
+  },
 "std": {
     "vector": {
         "new": {
@@ -150,6 +150,13 @@
         "params": ["addr: address"],
         "description": "Borrows a mutable reference to a resource stored at the given address.",
         "example_usage": "let resource = borrow_mut<ResourceType>(addr);"
-    }
+    },
+"error": {},
+"features": {},
+"option": {},
+"features": {},
+"signer": {},
+"string": {},
+"fixed_point32": {}
 }    
 }
