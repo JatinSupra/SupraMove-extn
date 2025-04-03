@@ -1,11 +1,11 @@
 {
   "name": "supramove-extn",
-  "displayName": "SupraMove Extn",
+  "displayName": "SupraMove Extention",
   "description": "Extention for Developers Building on Supra L1 MoveVM.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JatinSupra/SupraMove-extn-Alpha.git"
+    "url": "https://github.com/Entropy-Foundation/SupraMove-extn"
   },
   "license": "MIT",
   "publisher": "JatinSupra",
