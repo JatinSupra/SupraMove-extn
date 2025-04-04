@@ -1,18 +1,18 @@
 # Change Log
-
 All notable changes to this project will be documented in this file.
 
-## [0.0.1] - Testing Alpha  
+## [1.0.0] 
 
-### Added
- - Syntax highlighting support for Move language and Supra Move-specific elements.
-- Intellisense for Supra framework namespaces, functions, and parameters.
-- Suggestions with descriptions and usage examples.
+## Features
 
-## [Future Versions]
-- Yet to release to Public Beta Useage.
+### 1. Syntax Highlighting
+- Comprehensive syntax support for Move language fundamentals.
+- Special highlighting for Supra Move-specific syntax, such as `supra_framework` namespaces.
+- ***Note:** Yet to have all Supra Framework function def.
 
-### Planned Features
-- Add support for stepping into local and remote dependencies.
-- Improved Intellisense with parameter hints.
-- Enhanced support for function metadata generation.
+### 2. Intellisense
+- Auto-complete and suggestions for Supra Move namespaces, functions, and parameters.
+- Provides dropdown suggestions for namespaces like `supra_framework::`, `std::`, and others.
+- Auto-complete for modules, functions, and attributes from:
+   - supra_framework
+   - std (e.g., vector, table, borrow_mut)

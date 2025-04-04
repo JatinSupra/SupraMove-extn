@@ -18,14 +18,6 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
 
 ## Getting Started
 
-### Installation
-- Yet to be PUBLIC on VS Code Marketplace
-- To try 
-  - Fork the repo in VS Code
-  - Open the Project Dir and Press F5.
-  - That will open a new window of VS Code and then try writing a new Move Supra Framework Contract to test out the extention features.
-  - ***Note:** Keep the main window open to keep extention running. 
-
 ### Usage
 - Open any `.move` file in VS Code.
 - Start coding with features like syntax highlighting and Intellisense automatically enabled.
