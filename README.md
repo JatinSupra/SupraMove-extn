@@ -16,26 +16,18 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
    - supra_framework
    - std (e.g., vector, table, borrow_mut)
 
-## Getting Started
+### 3. In-built Explorer
+- Enter an account address to fetch **Resources,** **Modules,** and **Events**dynamically via the Supra REST API.
+- View fetched **Resources** categorized in the tray with detailed information like module name, address, and type arguments.
+- View fetched **Modules**, displaying their name and address.
+- View fetched **Events**, from a dedicated Txn Hash.
 
-### Installation
-- Yet to be PUBLIC on VS Code Marketplace
-- To try 
-  - Fork the repo in VS Code
-  - Open the Project Dir and Press F5.
-  - That will open a new window of VS Code and then try writing a new Move Supra Framework Contract to test out the extention features.
-  - ***Note:** Keep the main window open to keep extention running. 
+## Getting Started
 
 ### Usage
 - Open any `.move` file in VS Code.
 - Start coding with features like syntax highlighting and Intellisense automatically enabled.
-
-### Requirements
-- Node.js and npm (for development and testing).
-- Visual Studio Code (latest version recommended).
+- Click on Supra logo in white in your Activity Bar to use In-built Explorer.
 
 ## Contributing
 Contributions are welcome! Whether it’s fixing a bug, enhancing functionality, or adding documentation, your input makes this tool better for everyone.
-
-## License
-This extension is licensed under the MIT License 
