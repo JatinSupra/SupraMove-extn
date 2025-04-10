@@ -22,8 +22,6 @@ The **SupraMove VS Code Extension** is a tool specifically designed for develope
 - View fetched **Modules**, displaying their name and address.
 - View fetched **Events**, from a dedicated Txn Hash.
 
-## Getting Started
-
 ### Usage
 - Open any `.move` file in VS Code.
 - Start coding with features like syntax highlighting and Intellisense automatically enabled.
