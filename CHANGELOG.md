@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [2.0.0]
+## [1.0.0]
 
 ## Features
 
@@ -16,9 +16,3 @@ All notable changes to this project will be documented in this file.
 - Auto-complete for modules, functions, and attributes from:
    - supra_framework
    - std (e.g., vector, table, borrow_mut)
-
-### 3. In-built Explorer
-- Enter an account address to fetch **Resources** and **Modules** and **Events** dynamically via the Supra REST API.
-- View fetched **Resources** categorized in the tray with detailed information like module name, address, and type arguments.
-- View fetched **Modules**, displaying their name and address.
-- View fetched **Events**, from a dedicated Txn Hash.
