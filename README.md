@@ -1,6 +1,6 @@
-# SupraMove VS Code Extension
+# Supra Move VS Code Extension
 
-The **SupraMove VS Code Extension** is a tool specifically designed for developers working with the Supra Move framework. It enhances the coding experience by providing syntax highlighting and Intellisense, streamlining the development process and minimizing errors.
+The **Supra Move** VS Code Extension is a tool specifically designed for developers working with the Supra Move framework. It enhances the coding experience by providing syntax highlighting and Intellisense, streamlining the development process and minimizing errors.
 
 ## Features
 

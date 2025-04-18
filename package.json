@@ -1,6 +1,6 @@
 {
-  "name": "supramove-extn",
-  "displayName": "SupraMove Extension [BETA]",
+  "name": "supramove",
+  "displayName": "Supra Move",
   "description": "Extension for Developers Building on Supra L1 MoveVM.",
   "version": "1.0.0",
   "repository": {
