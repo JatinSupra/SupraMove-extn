@@ -2,7 +2,7 @@
   "name": "supramove",
   "displayName": "Supra Move",
   "description": "Extension for Developers Building on Supra L1 MoveVM.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Entropy-Foundation/SupraMove-extn"
@@ -15,6 +15,10 @@
   },
   "main": "./extension.js",
   "icon": "media/logo.png",
+  "activationEvents": [
+    "onCommand:supra.resourceExplorer",
+    "onView:supra.resourceExplorer"
+  ],
   "contributes": {
     "languages": [
       {
@@ -30,6 +34,46 @@
         "language": "move",
         "scopeName": "source.move",
         "path": "./syntaxes/move.tmLanguage.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "supra",
+          "title": "Supra",
+          "icon": "media/fav.svg"
+        }
+      ]
+    },
+    "views": {
+      "supra": [
+        {
+          "id": "resourceExplorer",
+          "name": "Explorer",
+          "icon": "media/fav.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "resourceExplorer.enterDetails",
+        "title": "Address for Resources & Modules"
+      },
+      {
+        "command": "resourceExplorer.enterTxnHash",
+        "title": "Transaction Hash for Events"
+      },
+      {
+        "command": "resourceExplorer.openResource",
+        "title": "Open Resource Details"
+      },
+      {
+        "command": "resourceExplorer.openModule",
+        "title": "Open Module Details"
+      },
+      {
+        "command": "resourceExplorer.openEvent",
+        "title": "View Event Details"
       }
     ]
   },
@@ -47,7 +91,7 @@
     "eslint": "^9.21.0"
   },
   "dependencies": {
-    "@vscode/vsce": "^3.3.2",
+    "axios": "^1.9.0",
     "node-fetch": "^3.3.2"
   }
 }
