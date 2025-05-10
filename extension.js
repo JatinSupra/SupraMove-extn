@@ -5,10 +5,6 @@ const zlib = require("zlib");
 
 function activate(context) {
   console.log("SupraMove Extension activated!");
-
-  // ----------------------------
-  // Load Supra Index for IntelliSense
-  // ----------------------------
   let supraIndex = {};
   try {
     supraIndex = JSON.parse(fs.readFileSync(context.asAbsolutePath("./supra-index.json"), "utf8"));
@@ -17,10 +13,6 @@ function activate(context) {
     vscode.window.showErrorMessage("Failed to load supra-index.json: " + error.message);
     supraIndex = {};
   }
-
-  // ----------------------------
-  // IntelliSense Providers
-  // ----------------------------
 
   // Provides IntelliSense suggestions when typing namespace (triggered by "::").
   const namespaceProvider = vscode.languages.registerCompletionItemProvider(
@@ -54,7 +46,6 @@ function activate(context) {
     ":"
   );
   context.subscriptions.push(namespaceProvider);
-
   // Provides autocomplete for Move struct attributes.
   const structProvider = vscode.languages.registerCompletionItemProvider(
     "move",
@@ -77,7 +68,6 @@ function activate(context) {
     " "
   );
   context.subscriptions.push(structProvider);
-
   // Provides IntelliSense for standard modules (e.g. std::vector, std::string).
   const stdProvider = vscode.languages.registerCompletionItemProvider(
     "move",
@@ -109,10 +99,6 @@ function activate(context) {
   );
   context.subscriptions.push(stdProvider);
 
-  // ----------------------------
-  // Tree View (Resource Explorer)
-  // ----------------------------
-
   // Tree item class for the explorer.
   class ResourceTreeItem extends vscode.TreeItem {
     constructor(label, collapsibleState, description, command, tooltip, iconPath, contextValue) {
@@ -125,8 +111,6 @@ function activate(context) {
       this.details = null;
     }
   }
-
-  // Data provider for our explorer view.
   class ResourceTreeDataProvider {
     constructor() {
       this._onDidChangeTreeData = new vscode.EventEmitter();
@@ -204,8 +188,7 @@ function activate(context) {
         ];
         return [addressInputNode, categories[0], categories[1], dividerNode, txnInputNode, categories[2]];
       }
-
-      if (element.label === "RESOURCES") {
+        if (element.label === "RESOURCES") {
         return this.resources.map(([resourceType, details]) => {
           let node = new ResourceTreeItem(
             `${details.module}::${details.name}`,
@@ -220,8 +203,7 @@ function activate(context) {
           return node;
         });
       }
-
-      if (element.label === "MODULES") {
+   if (element.label === "MODULES") {
         return this.modules.map(([moduleType, details]) =>
           new ResourceTreeItem(
             `${details.name}`,
@@ -238,8 +220,7 @@ function activate(context) {
           )
         );
       }
-
-      if (element.label === "EVENTS") {
+    if (element.label === "EVENTS") {
         return this.events.map((event) =>
           new ResourceTreeItem(
             `${event.type}`,
@@ -263,38 +244,31 @@ function activate(context) {
   const resourceProvider = new ResourceTreeDataProvider();
   vscode.window.createTreeView("resourceExplorer", { treeDataProvider: resourceProvider });
 
-  // ----------------------------
   // API & Data Fetching Functions
-  // ----------------------------
   async function fetchResourcesByAddress(address) {
     const { default: fetch } = await import("node-fetch");
     const response = await fetch(`https://rpc-testnet.supra.com/rpc/v1/accounts/${address}/resources`);
     const data = await response.json();
     return data["Resources"]?.resource || [];
   }
-
-  async function fetchModulesByAddress(address) {
+async function fetchModulesByAddress(address) {
     const { default: fetch } = await import("node-fetch");
     const response = await fetch(`https://rpc-testnet.supra.com/rpc/v1/accounts/${address}/modules`);
     const data = await response.json();
     return data["Modules"]?.modules || [];
   }
-
-  async function fetchEventsByTxnHash(txnHash) {
+async function fetchEventsByTxnHash(txnHash) {
     const { default: fetch } = await import("node-fetch");
     const response = await fetch(`https://rpc-testnet.supra.com/rpc/v1/transactions/${txnHash}`);
     const data = await response.json();
     // @ts-ignore
     return data.output?.Move?.events || [];
   }
-
-  // New Function: Fetch and decompress module source code from the package registry.
+  // Addin this new fetch and decompress module source code from the package registry.
   async function fetchModuleSource(address, moduleName) {
     try {
       const url = `https://rpc-testnet.supra.com/rpc/v1/accounts/${address}/resources/0x1::code::PackageRegistry`;
       const response = await axios.get(url);
-      // Assume that the API returns an object with "result" as an array;
-      // each package in result[0].packages includes an array of modules.
       const packages = response.data.result[0].packages;
       for (let pkg of packages) {
         for (let mod of pkg.modules) {
@@ -302,7 +276,7 @@ function activate(context) {
             if (mod.source === "0x") {
               return "No source text published.";
             }
-            // Remove the leading '0x', convert from hex, decompress and convert to string.
+            // need to remove the leading '0x' convert from hex, decompress and convert to string.
             const buffer = Buffer.from(mod.source.substring(2), "hex");
             const sourceText = zlib.gunzipSync(buffer).toString();
             return sourceText;
@@ -314,11 +288,7 @@ function activate(context) {
       return `Error fetching module source: ${err.message}`;
     }
   }
-
-  // ----------------------------
-  // Command Registrations
-  // ----------------------------
-  context.subscriptions.push(
+ context.subscriptions.push(
     vscode.commands.registerCommand("resourceExplorer.enterAddress", async () => {
       const address = await vscode.window.showInputBox({ prompt: "Enter an address" });
       if (address) {
@@ -334,8 +304,7 @@ function activate(context) {
       }
     })
   );
-
-  context.subscriptions.push(
+context.subscriptions.push(
     vscode.commands.registerCommand("resourceExplorer.enterTxnHash", async () => {
       const txnHash = await vscode.window.showInputBox({ prompt: "Enter a transaction hash" });
       if (txnHash) {
@@ -348,8 +317,7 @@ function activate(context) {
       }
     })
   );
-
-  // Open module: fetches the module's source code and opens it in a new editor tab.
+  // this logic fetches the module's source code and opens it in a new editor tab.
   context.subscriptions.push(
     vscode.commands.registerCommand("resourceExplorer.openModule", async (moduleType, details) => {
       const moduleName = details.name;
@@ -371,7 +339,6 @@ function activate(context) {
       );
     })
   );
-
   context.subscriptions.push(
     vscode.commands.registerCommand("resourceExplorer.openEvent", (event) => {
       vscode.window.showInformationMessage(`Event: ${event.type}\nDetails: ${JSON.stringify(event.data, null, 2)}`);
@@ -380,5 +347,4 @@ function activate(context) {
 }
 
 function deactivate() {}
-
 module.exports = { activate, deactivate };
